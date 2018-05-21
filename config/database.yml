@@ -1,0 +1,22 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  username: postgres
+  password: postgres
+  host: localhost
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: listing_location_development
+
+test:
+  <<: *default
+  database: listing_location_test
+
+
+production:
+  <<: *default
+  database: listing_location_production
+  username: port
+  password: <%= ENV['LISTING_LOCATION_DATABASE_PASSWORD'] %>
