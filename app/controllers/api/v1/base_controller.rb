@@ -8,8 +8,8 @@ class Api::V1::BaseController < ApplicationController
     @user = User.find_by(email: params[:email])
   end
 
-  def render_success(user)
-    render json: { success: true, user: user }, status: 200
+  def render_success
+    render json: { success: true}, status: 200
   end
 
   def invalid_token_error
