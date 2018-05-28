@@ -1,7 +1,8 @@
 class Api::V1::BaseController < ApplicationController
 
-  def authentication_token
-    @user = User.find_by(auth_token: request.headers['X-AUTH-TOKEN'])
+  def authenticate_user!
+    @current_user = User.find_by(auth_token: request.headers['X-AUTH-TOKEN'])
+    invalid_token_error and return unless @current_user.present?
   end
 
   def find_user

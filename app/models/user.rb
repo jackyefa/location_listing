@@ -4,5 +4,8 @@ class User < ApplicationRecord
 
   # validation  
   validates :name, presence: true
-  validates :email, format: { with: /\A[^@,\s]+@[^@,\s]+\.[^@,\s]+\z/, message: "invalid"}
+  validates :email, format: { with: /\A[^@,\s]+@[^@,\s]+\.[^@,\s]+\z/, message: "invalid"}, :uniqueness => { :case_sensitive => false }
+
+  # Association
+  has_many :properties
 end

@@ -1,5 +1,5 @@
 class Api::V1::SessionsController <  Api::V1::BaseController
-  before_action :authentication_token, only: [:sign_out, :update_password]
+  before_action :authenticate_user!, only: [:sign_out, :update_password, :profile_update]
   before_action :find_user, only: [:sign_in, :forgot_password]
 
   def sign_in
@@ -14,15 +14,14 @@ class Api::V1::SessionsController <  Api::V1::BaseController
     if @user.save
       response.headers["X-AUTH-TOKEN"] = @user.auth_token   
     else
-      render_with_errors(user.errors.full_messages.join(','))
+      render_with_errors(@user.errors.full_messages.join(','))
     end
   end
 
-  def sign_out
-    invalid_token_error and return unless @user.present?
-    if @user.update_attributes(auth_token: nil)
+  def sign_out    
+    if @current_user.update_attributes(auth_token: nil)
       render_success
-    end    
+    end
   end
 
   def forgot_password
@@ -40,10 +39,17 @@ class Api::V1::SessionsController <  Api::V1::BaseController
     render_success
   end
 
-  def update_password
-    invalid_token_error and return unless @user.present?
-    render_with_errors("Invalid current password") and return unless @user.authenticate(params[:current_password])
-    @user.update_attributes(password: params[:new_password])
+  def update_password    
+    render_with_errors("Invalid current password") and return unless @current_user.authenticate(params[:current_password])
+    @current_user.update_attributes(password: params[:new_password])
     render_success
+  end
+
+  def profile_update    
+    if @current_user.update_attributes(name: params[:name], phone: params[:phone], address: params[:address])
+      render_success
+    else   
+      render_with_errors(@current_user.errors.full_messages.join(','))
+    end
   end
 end
