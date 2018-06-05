@@ -1,7 +1,8 @@
 class Property < ApplicationRecord
   # Association
-  belongs_to :user
-
+  belongs_to :user 
+  has_many :pictures, as: :pictureable
+  
   # Scope
   scope :all_except, ->(user) { where.not(user_id: user) }
 
