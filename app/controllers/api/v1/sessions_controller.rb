@@ -9,7 +9,9 @@ class Api::V1::SessionsController <  Api::V1::BaseController
     response.headers["X-AUTH-TOKEN"] = @user.auth_token  
   end
 
-  def sign_up
+  def sign_up    
+    user = User.find_by(email: params[:email])
+    render_with_errors("User already exist.") and return if user.present?
     @user = User.new(name: params[:name], email: params[:email], password: params[:password])
     if @user.save
       response.headers["X-AUTH-TOKEN"] = @user.auth_token   

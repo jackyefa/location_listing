@@ -18,10 +18,10 @@ class Api::V1::BaseController < ApplicationController
   end
 
   def invalid_email_or_password
-    render json: {success: false, error: "Invalid Email or Password"}, status: 401
+    render json: {success: false, error: "Invalid Email or Password"}, status: 422
   end
 
   def render_with_errors(error)
-    render json: { success: false, error: error }, status: 200
+    render json: { success: false, error: error }, status: 422
   end
 end
