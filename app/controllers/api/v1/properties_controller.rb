@@ -2,9 +2,13 @@ class Api::V1::PropertiesController <  Api::V1::BaseController
   before_action :authenticate_user!
 
   def index   
-    
-    @properties = Property.all_except(@current_user)
-    @user_properties = @current_user.properties
+    @properties = Property.all_property_except_user_property(@current_user, request)
+    @user_properties = @current_user.properties_with_url(request)
+    render json: {
+        status: true,
+        all_properties: @properties,
+        user_properties: @user_properties
+    }
   end
 
   def create
@@ -24,7 +28,7 @@ class Api::V1::PropertiesController <  Api::V1::BaseController
   
   private
     def property_params
-      params.require(:property).permit(:address, :city, :state, :zipcode, :unit, :id_number, :property_type, :latitude, :longitude)
+      params.require(:property).permit(:address, :city, :state, :zipcode, :unit, :id_number, :property_type, :latitude, :longitude, :building_name, :country)
     end
 
     def decode_base64_image encoded_file

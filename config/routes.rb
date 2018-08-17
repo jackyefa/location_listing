@@ -10,11 +10,14 @@ Rails.application.routes.draw do
       put 'reset_password', :to => 'sessions#reset_password'
       put 'update_password', :to => 'sessions#update_password'
       delete 'sign_out', :to => 'sessions#sign_out'  
-      put 'profile_update', :to => 'sessions#profile_update'
 
       # Property
       post 'add_property', :to => 'properties#create'
       get 'dashboard', :to => 'properties#index'
+
+      # Users
+      get 'profile', :to => 'users#profile'
+      put 'update', :to => 'users#update'
     end
   end
 end

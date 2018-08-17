@@ -5,8 +5,8 @@ class Api::V1::SessionsController <  Api::V1::BaseController
   def sign_in
     invalid_email_or_password and return unless @user.present?
     invalid_email_or_password and return unless @user.authenticate(params[:password])
-    @user.regenerate_auth_token
-    response.headers["X-AUTH-TOKEN"] = @user.auth_token  
+    @user.regenerate_auth_token    
+    response.headers["x-auth-token"]= @user.auth_token  
   end
 
   def sign_up    
@@ -14,7 +14,7 @@ class Api::V1::SessionsController <  Api::V1::BaseController
     render_with_errors("User already exist.") and return if user.present?
     @user = User.new(name: params[:name], email: params[:email], password: params[:password])
     if @user.save
-      response.headers["X-AUTH-TOKEN"] = @user.auth_token   
+      response.headers["x-auth-token"] = @user.auth_token   
     else
       render_with_errors(@user.errors.full_messages.join(','))
     end
@@ -45,13 +45,5 @@ class Api::V1::SessionsController <  Api::V1::BaseController
     render_with_errors("Invalid current password") and return unless @current_user.authenticate(params[:current_password])
     @current_user.update_attributes(password: params[:new_password])
     render_success
-  end
-
-  def profile_update    
-    if @current_user.update_attributes(name: params[:name], phone: params[:phone], address: params[:address])
-      render_success
-    else   
-      render_with_errors(@current_user.errors.full_messages.join(','))
-    end
   end
 end

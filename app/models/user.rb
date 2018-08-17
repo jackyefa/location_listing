@@ -8,4 +8,17 @@ class User < ApplicationRecord
 
   # Association
   has_many :properties
+
+  # Instance Methods
+
+  def properties_with_url(request)
+    user_property = []
+    properties.each do |property| 
+      url = property.pictures.last.present? ? "#{request.host}#{property.pictures.last.image.url}" : "" 
+      user_property << property.attributes.merge(url: url)
+    end
+    user_property
+  end
 end
+
+
