@@ -2,7 +2,7 @@ class Api::V1::PropertiesController <  Api::V1::BaseController
   before_action :authenticate_user!
 
   def index   
-    @properties = Property.all_except(@current_user)
+    @all_properties = Property.all_except(@current_user)
     @user_properties = @current_user.properties
   end
 
