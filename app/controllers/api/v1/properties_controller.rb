@@ -2,13 +2,8 @@ class Api::V1::PropertiesController <  Api::V1::BaseController
   before_action :authenticate_user!
 
   def index   
-    @properties = Property.all_property_except_user_property(@current_user, request)
-    @user_properties = @current_user.properties_with_url(request)
-    render json: {
-        status: true,
-        all_properties: @properties,
-        user_properties: @user_properties
-    }
+    @properties = Property.all_except(@current_user)
+    @user_properties = @current_user.properties
   end
 
   def create

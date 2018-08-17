@@ -7,18 +7,7 @@ class User < ApplicationRecord
   validates :email, format: { with: /\A[^@,\s]+@[^@,\s]+\.[^@,\s]+\z/, message: "invalid"}, :uniqueness => { :case_sensitive => false }
 
   # Association
-  has_many :properties
-
-  # Instance Methods
-
-  def properties_with_url(request)
-    user_property = []
-    properties.each do |property| 
-      url = property.pictures.last.present? ? "#{request.host}#{property.pictures.last.image.url}" : "" 
-      user_property << property.attributes.merge(url: url)
-    end
-    user_property
-  end
+  has_many :properties  
 end
 
 

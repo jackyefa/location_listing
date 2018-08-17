@@ -23,15 +23,5 @@ class Property < ApplicationRecord
 
   def lat_long_nil?
     latitude.present? && longitude.present?
-  end
-
-  def self.all_property_except_user_property(user, request)
-    properties = Property.all_except(user)
-    all_property = []
-    properties.each do |property|
-      url = property.pictures.last.present? ? "#{request.host}#{property.pictures.last.image.url}" : "" 
-      all_property << property.attributes.merge(url: url)
-    end
-    all_property
-  end
+  end 
 end
