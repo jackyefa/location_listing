@@ -8,7 +8,7 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   def update
-    if @current_user.update_attributes(name: params[:name], phone: params[:phone], address: params[:address], city: params[:city], state: params[:state], zipcode: params[:zipcode])
+    if @current_user.update_attributes(name: params[:name], phone: params[:phone], address: params[:address], address_2: params[:address_2], city: params[:city], state: params[:state], zipcode: params[:zipcode])
       render_success
     else   
       render_with_errors(@current_user.errors.full_messages.join(','))
