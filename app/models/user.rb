@@ -7,7 +7,8 @@ class User < ApplicationRecord
   validates :email, format: { with: /\A[^@,\s]+@[^@,\s]+\.[^@,\s]+\z/, message: "invalid"}, :uniqueness => { :case_sensitive => false }
 
   # Association
-  has_many :properties  
+  has_many :properties
+  has_many :pictures, as: :pictureable
 end
 
 

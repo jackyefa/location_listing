@@ -4,7 +4,7 @@ class Property < ApplicationRecord
   has_many :pictures, as: :pictureable
   
   # Scope
-  scope :all_except, ->(user) { where.not(user_id: user) }
+  scope :all_except, ->(user) { where.not(user_id: user.id) }
 
   # Callback
   before_create :set_latitude_and_longitude, :unless => :lat_long_nil?
